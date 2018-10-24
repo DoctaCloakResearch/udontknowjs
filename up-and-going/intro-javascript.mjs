@@ -111,3 +111,72 @@ foo.bar = "Hello, World.";
 console.log(typeof(foo));
 console.log(typeof(foo.bar));
 console.log(foo.bar);
+
+
+console.log(foo.bar.length);
+console.log(foo.bar.toUpperCase);
+console.log((3.14269).toFixed(2));
+
+/*
+    Built-In Type Methods.
+
+    The method toUppercase, as well as toFixed, and even the property length,
+    are not the difficult aspects of the code above.
+
+    The "how" behind how they work is what is complicated.
+
+    There is basically an object wrapper, called a 'native', which pairs
+    with the primitive data type, defining a set of methods and properties
+    on its prototype.
+
+    So when you use a primitive value like a string or a number, then 
+    JavaScript automatically 'boxes' the value to its object wrapper.
+
+    You can even wrap a string around a string object,
+    thus giving you access to ALL of the string properties and methods.
+
+    Ex:  String('hello').toUpperCase()
+
+    The same works for 'hello' though, so just imagine
+    String is invisible.  It's always there, lurking.
+*/
+
+
+// This will still work.  Trust me.
+console.log(String('hello'));
+
+/*
+    Truth & Falsy
+    The following values in JS turn to false when converted to a boolean
+    1. ""
+    2. 0, -0, NaN
+    3. null, undefined
+    4. false
+*/
+
+/* Equality
+    In JavaScript, when you're dealing with equality, typically
+    you're dealing with strict equality and loose equality.  Loose equality
+    can be dangerous if not understood, the same way it can be very helpful
+    when one has a strong understanding of it.  In some cases, it can honestly
+    even improve the quality of code being written.
+
+    There are four equality operators:
+    1. ==
+    2. ===
+    3. !=
+    4. !==
+*/
+
+var a;
+var b;
+var c;
+
+console.log(2 == "2"); // => true
+console.log(2 === "2"); // => false
+console.log(2 != "2"); // => false
+console.log(2 !== "2"); // true
+
+/* ==, ===, !=, !== should not be confused with ! 
+    ! or not, is the counterpart, it isn't the same as inequality.
+*/
