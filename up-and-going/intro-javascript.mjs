@@ -179,4 +179,15 @@ console.log(2 !== "2"); // true
 
 /* ==, ===, !=, !== should not be confused with ! 
     ! or not, is the counterpart, it isn't the same as inequality.
+
+    == : checks for value equality with coercion allowed, thus loose
+    === : checks for value equality without allowing coercion, thus strict.
+
+    When you aren't sure what to use, a good rule of thumb is:
+    if either value could be the true or false value, avoid using
+    == and instead use ===
+
+    If it can be 0 "" or [] then use a strict comparison operator.
+    
 */
+
