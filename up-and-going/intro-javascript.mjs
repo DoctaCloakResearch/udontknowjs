@@ -188,6 +188,129 @@ console.log(2 !== "2"); // true
     == and instead use ===
 
     If it can be 0 "" or [] then use a strict comparison operator.
-    
+
+    When checking non primitive values, like objects (functions and arrays) 
+    count too, the references, or memory addresses are what are compared.
+
+    Take arrays.  They're coerced to strings by adding the , in-between as 
+    a delimiter...so [1, 2, 3] becomes "1,2,3", but [1, 2, 3] is not [1, 2, 3].
 */
 
+var a = [1, 2, 3];
+var b = [1, 2, 3];
+var c = "1,2,3";
+
+console.log(a == b) // => False
+console.log(a == c) // => True
+
+// This is false because we are not allowing the coercion to take place.
+console.log(a === c) // => False
+
+/*
+    One interesting thing about naming conventions with JavaScript is that
+    property names can be names of reserved keywords.
+
+    However, pure variables cannot.  So we can use for, in, if, etc as property
+    names in human down below if we want and we won't receive a syntax error.
+
+    We can even use false, true and null.
+
+    Even numbers, but if you use a number you need square brackets.
+*/
+var human = {
+    for: "John",
+    false: 0,
+    true: 1,
+    null: "This is crazy isn't it?  Never name your properties like this.",
+    3: 12
+}
+
+console.log(human.for);
+console.log(human.false)
+console.log(human.null)
+console.log(human[3])
+
+// This function will execute on run time.  :) 
+var hello = (function() {
+    console.log("Yeet");
+}());
+
+/*
+    Hoisting is pretty important in JavaScript.
+    Whenever you use var inside a scope, that specific declaration is then 
+    taken to belong to the entire scope and is accessible everywhere 
+    throughout.
+
+    Consider the following code below.
+*/  
+
+var a = 2;
+
+fooz();  // This will work because foo declaration is hoisted.
+
+function fooz() {
+    a = 3;
+
+    console.log(a); // 3
+    // Think of this hoisting as reseting a in a way.
+    var a;  // declaration is hoisted to the top of foo() won't affect earlier a.
+}
+
+console.log(a); // 2
+
+/* 
+    Although hoisting is a thing in JS, it's not common nor good practice to 
+    do this with variables.  It's more common to use hoisted function 
+    declarations though.
+*/
+
+/*
+    One cool thing that you can do in JavaScript when testing a conditional is
+    use a ternary.
+
+    The blow code is the equivalent of:
+
+    if (a > 42) {
+        d = "yeet"
+    } else {
+        d = "cool"
+    }
+
+    see how long and cumbersome that is?  The ternary operator is far more 
+    concise. 
+*/
+var d = (a > 42) ? "yeet" : "cool";
+console.log(d);
+
+/*
+    Closures are arguably one of the most important, and more often than not,
+    least understood, concepts in JavaScript.  Basically, a closure is a way to
+    remember and continue to have access to a function's scope (its variables) 
+    even once the function has finished running.
+*/
+
+// Consider this
+function makeAdder(y) {
+    // parameter 'y' is an inner variable
+
+    function add(z) {
+        return y + z;
+    };
+
+    return add;
+}
+
+var adder = makeAdder(3)(2);
+console.log(adder)
+
+// plusOne gets a reference to the inner add(..) function with closure over the
+// x parameter of the outer makerAdder
+var plusOne = makeAdder(1);
+
+// plusTen gets a reference to the inner add(..) function with closuer over the
+// x parameter of the outer makeAdder
+var plusTen = makeAdder(10);
+
+console.log(plusOne(3)); // => 4 <-- 1 + 3
+console.log(plusOne(41)); // => 42 <-- 1 + 41
+console.log(plusTen(13)); // => 23 <-- 10 + 13
