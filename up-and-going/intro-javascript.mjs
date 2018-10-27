@@ -314,3 +314,126 @@ var plusTen = makeAdder(10);
 console.log(plusOne(3)); // => 4 <-- 1 + 3
 console.log(plusOne(41)); // => 42 <-- 1 + 41
 console.log(plusTen(13)); // => 23 <-- 10 + 13
+
+/*
+    Modules
+    The most common usage of closure in JS is the module pattern.
+    What modules allow are private implementation details (variables, functions)
+    that are hidden from the outside world through encapsulation, as well as a
+    public API that is accessible from the outside
+*/
+
+function User() {
+    var username, password;
+    var name = '';
+
+    function doLogin(user, pw) {
+        username = user;
+        password = pw;
+    }
+
+    function setName(fullName) {
+       name = fullName; 
+    }
+
+    function getName() {
+        return name;
+    }
+
+    var publicAPI = {
+        login: doLogin,
+        getName: getName,
+        setName: setName
+    }
+    return publicAPI;
+}
+
+// Creating a `User` module instance
+var fred = User();
+
+fred.login('fred', 'password');
+fred.setName('Fred Doe');
+
+var tom = User();
+tom.login('tom', 'password');
+tom.setName('Tom Hill');
+
+console.log(fred.getName());
+console.log(tom.getName());
+
+/*
+    Note: new User is not called on purpose, even though it's commonly used.
+    Basically, the reason for this is that User() is just a function we are 
+    invoking, not a class to be instantiated, so it's just called normally.
+    Using new would just waste system resources.
+
+    Also, doLogin has a closure over username and password, the same way
+    that getName/setName have a closure over the name of the user, meaning it
+    will retain its access to them even after the User() function finishes 
+    running.  It's important to understand this when trying to manage
+    memory with JavaScript applications.
+*/
+
+
+/*
+    this Identifier
+    Another misunderstood concept in JS is the `this` keyword.
+    If a function has a this reference inside of it, that this
+    reference usually points to an object.
+
+    The object that this points to depends on how the function is invoked.
+
+    this does not refer to the function itself.
+*/
+
+function thisExample() {
+    /* 
+        When running in the browser, we would use the code snippet
+        below.  However, because we're using node, we will comment it out.
+    */
+    //    console.log(this.yeet);  
+    console.log(this.yeet);
+}
+
+var yeet = "global";
+
+var obj1 = {
+    yeet: "obj1",
+    thisExample: thisExample
+};
+
+var obj2 = {
+    yeet: "obj2"
+};
+
+// thisExample(); // global
+obj1.thisExample(); // obj1, if using this
+thisExample.call(obj2); // obj2, if using this
+
+/*
+    Prototypes
+    Prototypes in JS are quite complicated.  Basically, when you reference 
+    a property on an object, if that property does not exist, JS will 
+    automatically use that object's internal prototype refernece to find
+    another object to look for the property on.  Think of this like a fallback
+    if the property is missing.
+*/
+
+var anObject = {
+    a: 42
+};
+
+// create `something` and link it to `anObject`
+var something = Object.create(anObject);
+something.b = "hello world";
+
+console.log(something.b) // => hello world
+console.log(something.a); // => 42 <-- delegated to anObject
+
+/*
+    Most people try to use prototypes to emulate/fake a "class" mechanism
+    of inheritance and this is largely abused, to poor practice.
+
+    A more natural way of applying prototypes is to use a pattern called
+    behavior delegation
+*/
