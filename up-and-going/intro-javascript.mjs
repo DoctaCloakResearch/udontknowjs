@@ -435,5 +435,24 @@ console.log(something.a); // => 42 <-- delegated to anObject
     of inheritance and this is largely abused, to poor practice.
 
     A more natural way of applying prototypes is to use a pattern called
-    behavior delegation
+    behavior delegation.  Behavior delegation is basically designing linked
+    objects to be able to delegate from one to other parts of the needed 
+    behavior.
 */
+
+
+// How default function parameters work.
+function defaultExample() {
+    /*
+        Here we check and see if the argument of position 0 is undefined
+        if it isn't, then we assign the value stored in that hash inside of a.
+        Otherwise, if it is undefined, we assign 2, which is acting as a 
+        default value for a.
+
+        This is no different than doing `function defaultExample(var a = 2) {}`
+    */
+    var a = arguments[0] !== (void 0) ? arguments[0] : 2
+    console.log(a)
+}
+
+defaultExample();
